@@ -10,26 +10,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/security")
 public class SecurityResource {
 
+    /**
+     * endpoint sem nenhuma validação de role
+     */
     @GetMapping
-    public ResponseEntity<Void> security() {
+    public ResponseEntity<Void> isAuthenticated() {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * endpoint onde o usuario tem que ter a role user
+     */
     @GetMapping(value = "/has-role")
-    @PreAuthorize(value = "hasRole('ROLE_USER')")
-    public ResponseEntity<Void> securityHasRole() {
-        return ResponseEntity.ok().build();
-    }
-
-    @GetMapping(value = "/has-authority")
     @PreAuthorize("hasAnyAuthority('ROLE_USER')")
-    public ResponseEntity<Void> securityHasAuthority() {
+    public ResponseEntity<Void> isUser() {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping(value = "/has-other-authority")
-    @PreAuthorize("hasAnyAuthority('USER')")
-    public ResponseEntity<Void> securityOtherHasAuthority() {
+    /**
+     * endpoint onde o usuario tem que ter a role admin
+     */
+    @GetMapping(value = "/is-admin")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+    public ResponseEntity<Void> isAdmin() {
         return ResponseEntity.ok().build();
     }
 
